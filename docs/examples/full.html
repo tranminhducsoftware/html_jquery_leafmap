@@ -152,6 +152,29 @@
             map = new L.Map('map', { center: new L.LatLng(51.505, -0.04), zoom: 13 }),
             drawnItems = L.featureGroup().addTo(map);
 
+            var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "amenity": "Baseball Stadium",
+        "popupContent": "This is where the Rockies play!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-104.99404, 39.75621]
+    }
+};
+L.geoJSON(geojsonFeature).addTo(map);
+
+async function addGeoJson() {
+    const response = await fetch("/dc6.geojson");
+    console.log('response',response);
+    const data = await response.json();
+    L.geoJson(data).addTo(map);
+}
+
+addGeoJson();
+
         L.control.layers({
             'osm': osm.addTo(map),
             'Terrain': L.tileLayer('http://www.google.cn/maps/vt?lyrs=p@189&gl=cn&x={x}&y={y}&z={z}', {
